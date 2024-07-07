@@ -1,0 +1,24 @@
+.btn {
+    color: rgb(239, 236, 236);
+    margin: 0 auto;
+    margin-bottom: 50px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    padding: 10px 20px;
+    background-color: #3f84c4;
+
+    transition: background-color 100ms linear;
+}
+
+.btn:hover {
+    cursor: pointer;
+    background-color: rgb(71, 47, 165);
+}
+
+.btn:disabled {
+    cursor: default;
+    background-color: lightgray;
+}
