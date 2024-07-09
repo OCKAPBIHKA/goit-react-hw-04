@@ -5,6 +5,7 @@ export function transformData(data) {
       alt: photo["alt_description"],
       description: photo.description,
       likes: photo.likes,
+      src: photo.urls.small || photo.fullImg,
       thumbImg: photo.urls.small,
       fullImg: photo.urls.regular,
       author: photo.user.name,

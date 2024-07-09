@@ -12,8 +12,7 @@ function ImageCard({ photo, modal, onOpen }) {
     <div className={styles.wrapper}>
       <img
         className={styles.img}
-        src={modal ? photo.fullImg : photo.thumbImg}
-        alt={photo.alt}
+        src={photo.urls?.small || photo.thumbImg}
         onClick={clickHandler}
       />
     </div>
@@ -21,9 +20,9 @@ function ImageCard({ photo, modal, onOpen }) {
 }
 
 ImageCard.propTypes = {
-  photo: PropTypes.object,
-  modal: PropTypes.bool,
-  onOpen: PropTypes.func,
+  photo: PropTypes.object.isRequired,
+  modal: PropTypes.bool.isRequired,
+  onOpen: PropTypes.func.isRequired,
 };
 
 export default ImageCard;

@@ -17,10 +17,8 @@ function App() {
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-
   const [showModal, setShowModal] = useState({ isOpen: false, photo: null });
-
-  const [query, setQuery] = useState(null);
+  const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
 
   function updateQuery(string) {
@@ -29,39 +27,38 @@ function App() {
   }
 
   useEffect(() => {
-    makeRequest(query, page);
+    if (query) {
+      makeRequest(query, page);
+    }
   }, [query, page]);
 
   function makeRequest(query, page) {
-    if (query) {
-      setLoading(true);
-      setError(false);
+    setLoading(true);
+    setError(false);
 
-      fetchPhotos(query, page)
-        .then((data) => {
-          if (data.length === 0) {
-            return toast.error("No results for your query!", {
-              duration: 3500,
-              position: "top-right",
-            });
-          }
-
-          if (page > 1) {
-            setPhotos((prevPhotos) => [...prevPhotos, ...data]);
-          } else {
-            setPhotos(data);
-          }
-        })
-        .catch((e) => {
-          setError(true);
-
-          toast.error(e.message, {
-            duration: 3000,
+    fetchPhotos(query, page)
+      .then((data) => {
+        if (data.length === 0) {
+          return toast.error("No results for your query!", {
+            duration: 3500,
             position: "top-right",
           });
-        })
-        .finally(() => setLoading(false));
-    }
+        }
+
+        if (page > 1) {
+          setPhotos((prevPhotos) => [...prevPhotos, ...data]);
+        } else {
+          setPhotos(data);
+        }
+      })
+      .catch((e) => {
+        setError(true);
+        toast.error(e.message, {
+          duration: 3000,
+          position: "top-right",
+        });
+      })
+      .finally(() => setLoading(false));
   }
 
   function openImage(photo) {
@@ -79,7 +76,6 @@ function App() {
       {photos.length > 0 && !error && (
         <ImageGallery photos={photos} onOpen={openImage} />
       )}
-
       <BarsLoader
         visible={loading}
         height="130"
@@ -89,9 +85,11 @@ function App() {
         wrapperStyle={{}}
         wrapperClass="load-wrapper"
       />
-
       {photos.length > 0 && !error && (
-        <LoadMoreBtn onLoading={loading} setPage={setPage} />
+        <LoadMoreBtn
+          onLoadMore={() => setPage((prevPage) => prevPage + 1)}
+          onLoading={loading}
+        />
       )}
       <Toaster />
       <ImageModal showModal={showModal} closeModal={closeImage} />

@@ -1,7 +1,6 @@
 import ReactModal from "react-modal";
 import PropTypes from "prop-types";
 import { HiXMark } from "react-icons/hi2";
-import ImageCard from "../ImageCard/ImageCard";
 
 import "./ImageModal.css";
 
@@ -23,14 +22,20 @@ function ImageModal({ showModal, closeModal }) {
         onClick={closeModal}
       />
 
-      {showModal.photo && <ImageCard photo={showModal.photo} modal={true} />}
+      {showModal.photo && (
+        <img
+          src={showModal.photo.src}
+          alt={showModal.photo.alt}
+          className={`image ${showModal.modal && "modal-image"}`}
+        />
+      )}
     </ReactModal>
   );
 }
 
 ImageModal.propTypes = {
-  showModal: PropTypes.object,
-  closeModal: PropTypes.func,
+  showModal: PropTypes.object.isRequired,
+  closeModal: PropTypes.func.isRequired,
 };
 
 export default ImageModal;
